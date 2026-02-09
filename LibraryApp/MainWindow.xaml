@@ -1,0 +1,92 @@
+﻿<Window x:Class="LibraryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Библиотека" Height="500" Width="900">
+
+    <DockPanel>
+
+        <!-- Информация о пользователе -->
+        <TextBlock x:Name="UserInfo"
+                   DockPanel.Dock="Top"
+                   Margin="5"
+                   FontSize="16"
+                   FontWeight="Bold"/>
+
+        <TabControl>
+
+            <!-- Читатели -->
+            <TabItem Header="Читатели">
+                <DockPanel>
+
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                        <Button Content="Сохранить изменения" Width="100" Margin="5" Click="SaveChanges_Click"/>
+                        <Button Content="Добавить" Width="100" Margin="5" Click="AddReader"/>
+                        <Button Content="Удалить" Width="100" Margin="5" Click="DeleteReader"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="ReadersGrid"
+                              AutoGenerateColumns="True"
+                              Margin="5"/>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Книги -->
+            <TabItem Header="Книги">
+                <DockPanel>
+
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                        <Button Content="Сохранить изменения" Width="100" Margin="5" Click="SaveChanges_Click"/>
+                        <Button Content="Добавить" Width="100" Margin="5" Click="AddBook"/>
+                        <Button Content="Удалить" Width="100" Margin="5" Click="DeleteBook"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="BooksGrid"
+                              AutoGenerateColumns="True"
+                              Margin="5"/>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Взятые книги -->
+            <TabItem Header="Взятые книги">
+                <DockPanel>
+
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
+                        <Button Content="Сохранить изменения" Width="100" Margin="5" Click="SaveChanges_Click"/>
+                        <Button Content="Добавить" Width="100" Margin="5" Click="AddBorrow"/>
+                        <Button Content="Удалить" Width="100" Margin="5" Click="DeleteBorrow"/>
+                    </StackPanel>
+
+                    <!-- ВАЖНО: вручную прописываем колонки -->
+                    <DataGrid x:Name="BorrowedGrid"
+                              AutoGenerateColumns="False"
+                              Margin="5">
+
+                        <DataGrid.Columns>
+                        
+                            <DataGridTextColumn Header="Книга"
+                                                Binding="{Binding Book.Title}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Читатель"
+                                                Binding="{Binding Reader.LastName}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Дата взятия"
+                                                Binding="{Binding DateTaken}"
+                                                Width="*"/>
+
+                            <DataGridTextColumn Header="Дата возврата"
+                                                Binding="{Binding DateReturned}"
+                                                Width="*"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                </DockPanel>
+            </TabItem>
+
+        </TabControl>
+
+    </DockPanel>
+</Window>
