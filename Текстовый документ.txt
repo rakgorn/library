@@ -1,0 +1,71 @@
+CREATE DATABASE LibraryDb;
+GO
+
+USE LibraryDb;
+GO
+
+-- Таблица ролей
+CREATE TABLE Roles (
+    Id INT IDENTITY PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL
+);
+
+INSERT INTO Roles (Name) VALUES ('Admin'), ('User');
+
+-- Таблица пользователей
+CREATE TABLE Users (
+    Id INT IDENTITY PRIMARY KEY,
+    Login NVARCHAR(100) NOT NULL UNIQUE,
+    Password NVARCHAR(200) NOT NULL,
+    RoleId INT NOT NULL,
+    FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+);
+
+-- Таблица читателей
+CREATE TABLE Readers (
+    Id INT IDENTITY PRIMARY KEY,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    MiddleName NVARCHAR(100),
+    Phone NVARCHAR(20)
+);
+
+-- Таблица книг
+CREATE TABLE Books (
+    Id INT IDENTITY PRIMARY KEY,
+    Title NVARCHAR(200) NOT NULL,
+    Author NVARCHAR(200) NOT NULL,
+    DepositPrice DECIMAL(10,2) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Genre NVARCHAR(100)
+);
+
+-- Таблица взятых книг
+CREATE TABLE BorrowedBooks (
+    Id INT IDENTITY PRIMARY KEY,
+    BookId INT NOT NULL,
+    ReaderId INT NOT NULL,
+    DateTaken DATE NOT NULL,
+    DateReturned DATE NULL,
+    FOREIGN KEY (BookId) REFERENCES Books(Id),
+    FOREIGN KEY (ReaderId) REFERENCES Readers(Id)
+);
+INSERT INTO Users (Login, Password, RoleId)
+VALUES 
+('admin', 'admin', 1),
+('user1', '123', 2),
+('user2', '123', 2);
+INSERT INTO Readers (FirstName, LastName, MiddleName, Phone)
+VALUES
+('Иван', 'Иванов', 'Иванович', '89990001122'),
+('Пётр', 'Петров', 'Петрович', '89990003344'),
+INSERT INTO Books (Title, Author, DepositPrice, Price, Genre)
+VALUES
+('Война и мир', 'Лев Толстой', 500, 1500, 'Роман'),
+('Преступление и наказание', 'Фёдор Достоевский', 400, 1200, 'Роман'),
+('Мастер и Маргарита', 'Михаил Булгаков', 450, 1300, 'Фантастика');
+INSERT INTO BorrowedBooks (BookId, ReaderId, DateTaken, DateReturned)
+VALUES
+(1, 1, '2024-01-10', NULL),
+(2, 2, '2024-01-05', '2024-01-20'),
+(3, 3, '2024-01-15', NULL);
